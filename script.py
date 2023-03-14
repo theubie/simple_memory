@@ -48,6 +48,10 @@ def custom_generate_chat_prompt(user_input, max_new_tokens, name1, name2, contex
     prompt = ''.join(rows)
     return prompt
 
+def input_modifier(string):
+    if not any((shared.args.chat, shared.args.cai_chat)):
+        string = f"{params['simple memory'].strip()}\n{string}"
+    return string
 
 def ui():
     # Gradio elements
