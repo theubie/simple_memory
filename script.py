@@ -1,19 +1,22 @@
 import gradio as gr
 import pickle
+import modules.shared as shared
+from modules.extensions import apply_extensions
+from modules.text_generation import encode, get_max_prompt_length
 
 try:
     with open('saved_data.pkl', 'rb') as f:
         params = pickle.load(f)
 except FileNotFoundError:
     params = {
-	    "activate": False,
+        "activate": False,
         "simple memory": "*Add memories here*",
         "multiplier": 1,
-	}
-	
-def custom_generate_chat_prompt(user_input, max_new_tokens, name1, name2, context, chat_prompt_size, impersonate=False):
-    user_input = clean_chat_message(user_input)
+    }
 
+
+def custom_generate_chat_prompt(user_input, max_new_tokens, name1, name2, context, chat_prompt_size, impersonate=False):
+    
     if params['activate']:
         rows = [f"{params['simple memory'].strip()}\n{context.strip()}\n"]
     else:
@@ -44,10 +47,12 @@ def custom_generate_chat_prompt(user_input, max_new_tokens, name1, name2, contex
     prompt = ''.join(rows)
     return prompt
 
+
 def input_modifier(string):
     if not any((shared.args.chat, shared.args.cai_chat)):
         string = f"{params['simple memory'].strip()}\n{string}"
     return string
+
 
 def ui():
     # Gradio elements
