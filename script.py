@@ -1,9 +1,5 @@
 import gradio as gr
 import pickle
-import modules.shared as shared
-from modules.chat import clean_chat_message
-from modules.extensions import apply_extensions
-from modules.text_generation import encode, get_max_prompt_length
 
 try:
     with open('saved_data.pkl', 'rb') as f:
