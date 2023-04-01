@@ -15,8 +15,8 @@ except FileNotFoundError:
     }
 
 
-def custom_generate_chat_prompt(user_input, max_new_tokens, name1, name2, context, chat_prompt_size, impersonate=False):
-    
+def custom_generate_chat_prompt(user_input, max_new_tokens, name1, name2, context, chat_prompt_size, impersonate=False, also_return_rows=False):
+
     if params['activate']:
         rows = [f"{params['simple memory'].strip()}\n{context.strip()}\n"]
     else:
@@ -45,7 +45,10 @@ def custom_generate_chat_prompt(user_input, max_new_tokens, name1, name2, contex
         rows.pop(1)
 
     prompt = ''.join(rows)
-    return prompt
+    if also_return_rows:
+        return prompt, rows
+    else:
+        return prompt
 
 
 def input_modifier(string):
